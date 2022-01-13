@@ -4,9 +4,9 @@
       <el-col>
         <el-card>
           <div slot="header">
-            Subscription Converter
-            <svg-icon icon-class="github" style="margin-left: 20px" @click="goToProject" />
-
+            菊菊的订阅转换器
+            <svg-icon icon-class="github" style="margin-left: 20px" />
+            <svg-icon icon-class="demonrain" style="margin-left: 20px" />
             <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div>
           </div>
           <el-container>
@@ -30,47 +30,48 @@
                 </el-select>
               </el-form-item>
 
+              <el-form-item label="后端地址:">
+                <el-autocomplete
+                  style="width: 100%"
+                  v-model="form.customBackend"
+                  :fetch-suggestions="backendSearch"
+                  placeholder="可以使用自行搭建的后端服务。例：http://127.0.0.1:25500/sub?"
+                >
+                  <!-- <el-button slot="append" @click="gotoGayhub" icon="el-icon-link">前往项目仓库</el-button> -->
+                </el-autocomplete>
+              </el-form-item>
+              <el-form-item label="远程配置:">
+                <el-select
+                  v-model="form.remoteConfig"
+                  allow-create
+                  filterable
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
+                  <el-option-group
+                    v-for="group in options.remoteConfig"
+                    :key="group.label"
+                    :label="group.label"
+                  >
+                    <el-option
+                      v-for="item in group.options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-option-group>
+                  <el-button slot="append" @click="gotoRemoteConfig" icon="el-icon-link">配置示例</el-button>
+                </el-select>
+              </el-form-item>
+
               <div v-if="advanced === '2'">
-                <el-form-item label="后端地址:">
-                  <el-autocomplete
-                    style="width: 100%"
-                    v-model="form.customBackend"
-                    :fetch-suggestions="backendSearch"
-                    placeholder="动动小手，（建议）自行搭建后端服务。例：http://127.0.0.1:25500/sub?"
-                  >
-                    <el-button slot="append" @click="gotoGayhub" icon="el-icon-link">前往项目仓库</el-button>
-                  </el-autocomplete>
-                </el-form-item>
-                <el-form-item label="远程配置:">
-                  <el-select
-                    v-model="form.remoteConfig"
-                    allow-create
-                    filterable
-                    placeholder="请选择"
-                    style="width: 100%"
-                  >
-                    <el-option-group
-                      v-for="group in options.remoteConfig"
-                      :key="group.label"
-                      :label="group.label"
-                    >
-                      <el-option
-                        v-for="item in group.options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      ></el-option>
-                    </el-option-group>
-                    <el-button slot="append" @click="gotoRemoteConfig" icon="el-icon-link">配置示例</el-button>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="Include:">
+                <el-form-item label="包含节点:">
                   <el-input v-model="form.includeRemarks" placeholder="节点名包含的关键字，支持正则" />
                 </el-form-item>
-                <el-form-item label="Exclude:">
+                <el-form-item label="排除节点:">
                   <el-input v-model="form.excludeRemarks" placeholder="节点名不包含的关键字，支持正则" />
                 </el-form-item>
-                <el-form-item label="FileName:">
+                <el-form-item label="文件名:">
                   <el-input v-model="form.filename" placeholder="返回的订阅文件名" />
                 </el-form-item>
                 <el-form-item label-width="0px">
@@ -162,13 +163,13 @@
               </el-form-item>
 
               <el-form-item label-width="0px" style="text-align: center">
-                <el-button
+                <!-- <el-button
                   style="width: 120px"
                   type="primary"
                   @click="dialogUploadConfigVisible = true"
                   icon="el-icon-upload"
                   :loading="loading"
-                >上传配置</el-button>
+                >上传配置</el-button> -->
                 <el-button
                   style="width: 120px"
                   type="primary"
@@ -255,8 +256,108 @@ export default {
           ClashR: "clashr",
           Surge2: "surge&ver=2",
         },
-        backendOptions: [{ value: "http://127.0.0.1:25500/sub?" }],
+        backendOptions: [{value: "https://convert.hellorain.ga:520/"}],
         remoteConfig: [
+          {
+            label: "ACL4SSR",
+            options: [{
+                label: "ACL4SSR_Online 默认版 分组比较全(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online.ini"
+            }, {
+                label: "ACL4SSR_Online_AdblockPlus 更多去广告(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_AdblockPlus.ini"
+            }, {
+                label: "ACL4SSR_Online_MultiCountry 多国分组(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_MultiCountry.ini"
+            }, {
+                label: "ACL4SSR_Online_NoAuto 无自动测速(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoAuto.ini"
+            }, {
+                label: "ACL4SSR_Online_NoReject 无广告拦截规则(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoReject.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini 精简版(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini_AdblockPlus.ini 精简版 更多去广告(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_AdblockPlus.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini_NoAuto.ini 精简版 不带自动测速(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_NoAuto.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini_Fallback.ini 精简版 带故障转移(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_Fallback.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini_MultiMode.ini 精简版 自动测速、故障转移、负载均衡(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_MultiMode.ini"
+            }, {
+                label: "ACL4SSR_Online_Mini_MultiCountry.ini 精简版 带港美日国家(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_MultiCountry.ini"
+            }, {
+                label: "ACL4SSR_Online_Full 全分组 重度用户使用(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full.ini"
+            }, {
+                label: "ACL4SSR_Online_Full_MultiMode.ini 全分组 多模式 重度用户使用(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_MultiMode.ini"
+            }, {
+                label: "ACL4SSR_Online_Full_NoAuto.ini 全分组 无自动测速 重度用户使用(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_NoAuto.ini"
+            }, {
+                label: "ACL4SSR_Online_Full_AdblockPlus 全分组 重度用户使用 更多去广告(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_AdblockPlus.ini"
+            }, {
+                label: "ACL4SSR_Online_Full_Netflix 全分组 重度用户使用 奈飞全量(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_Netflix.ini"
+            }, {
+                label: "ACL4SSR_Online_Full_Google 全分组 重度用户使用 谷歌细分(与Github同步)",
+                value: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_Google.ini"
+            }, {
+                label: "ACL4SSR 本地 默认版 分组比较全",
+                value: "config/ACL4SSR.ini"
+            }, {
+                label: "ACL4SSR_Mini 本地 精简版",
+                value: "config/ACL4SSR_Mini.ini"
+            }, {
+                label: "ACL4SSR_Mini_NoAuto.ini 本地 精简版+无自动测速",
+                value: "config/ACL4SSR_Mini_NoAuto.ini"
+            }, {
+                label: "ACL4SSR_Mini_Fallback.ini 本地 精简版+fallback",
+                value: "config/ACL4SSR_Mini_Fallback.ini"
+            }, {
+                label: "ACL4SSR_BackCN 本地 回国",
+                value: "config/ACL4SSR_BackCN.ini"
+            }, {
+                label: "ACL4SSR_NoApple 本地 无苹果分流",
+                value: "config/ACL4SSR_NoApple.ini"
+            }, {
+                label: "ACL4SSR_NoAuto 本地 无自动测速 ",
+                value: "config/ACL4SSR_NoAuto.ini"
+            }, {
+                label: "ACL4SSR_NoAuto_NoApple 本地 无自动测速&无苹果分流",
+                value: "config/ACL4SSR_NoAuto_NoApple.ini"
+            }, {
+                label: "ACL4SSR_NoMicrosoft 本地 无微软分流",
+                value: "config/ACL4SSR_NoMicrosoft.ini"
+            }, {
+                label: "ACL4SSR_WithGFW 本地 GFW列表",
+                value: "config/ACL4SSR_WithGFW.ini"
+            }]
+          },
+          {
+            label: "universal",
+            options: [
+              {
+                label: "No-Urltest",
+                value:
+                  "https://cdn.jsdelivr.net/gh/SleepyHeeead/subconverter-config@master/remote-config/universal/no-urltest.ini"
+              },
+              {
+                label: "Urltest",
+                value:
+                  "https://cdn.jsdelivr.net/gh/SleepyHeeead/subconverter-config@master/remote-config/universal/urltest.ini"
+              }
+            ]
+          },
           {
             label: "universal",
             options: [
@@ -337,7 +438,7 @@ export default {
       form: {
         sourceSubUrl: "",
         clientType: "",
-        customBackend: "",
+        customBackend: "https://convert.hellorain.ga:520/",
         remoteConfig: "",
         excludeRemarks: "",
         includeRemarks: "",
@@ -379,13 +480,19 @@ export default {
     };
   },
   created() {
-    document.title = "Subscription Converter";
+    document.title = "菊菊的订阅转换器";
     this.isPC = this.$getOS().isPc;
 
     // 获取 url cache
     if (process.env.VUE_APP_USE_STORAGE === 'true') {
       this.form.sourceSubUrl = this.getLocalStorageItem('sourceSubUrl')
     }
+
+    //后端地址
+    // this.form.backendOptions = [{
+    //   value: "https://convert.hellorain.ga:520/"
+    // }];
+    //前端地址
   },
   mounted() {
     this.form.clientType = "clash";
