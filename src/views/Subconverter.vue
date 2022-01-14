@@ -256,7 +256,7 @@ export default {
           ClashR: "clashr",
           Surge2: "surge&ver=2",
         },
-        backendOptions: [{value: "https://convert.hellorain.ga:520/"}],
+        backendOptions: [{value: "https://convert.hellorain.ga:520/sub?"}],
         remoteConfig: [
           {
             label: "ACL4SSR",
@@ -438,7 +438,7 @@ export default {
       form: {
         sourceSubUrl: "",
         clientType: "",
-        customBackend: "https://convert.hellorain.ga:520/",
+        customBackend: "https://convert.hellorain.ga:520/sub?",
         remoteConfig: "",
         excludeRemarks: "",
         includeRemarks: "",
