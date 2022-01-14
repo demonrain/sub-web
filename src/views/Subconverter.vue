@@ -4,7 +4,7 @@
       <el-col>
         <el-card>
           <div slot="header">
-            菊菊的订阅转换器
+            demonrain的订阅转换器
             <svg-icon icon-class="github" style="margin-left: 20px" />
             <svg-icon icon-class="demonrain" style="margin-left: 20px" />
             <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div>
@@ -256,7 +256,7 @@ export default {
           ClashR: "clashr",
           Surge2: "surge&ver=2",
         },
-        backendOptions: [{value: "https://convert.hellorain.ga:520/sub?"}],
+        backendOptions: [{value: "https://convert.hellorain.ga:520/sub?"},{value: "http://127.0.0.1:25500/sub?"}],
         remoteConfig: [
           {
             label: "ACL4SSR",
@@ -480,7 +480,7 @@ export default {
     };
   },
   created() {
-    document.title = "菊菊的订阅转换器";
+    document.title = "demonrain的订阅转换器";
     this.isPC = this.$getOS().isPc;
 
     // 获取 url cache
