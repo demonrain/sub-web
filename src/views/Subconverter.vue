@@ -256,7 +256,7 @@ export default {
           ClashR: "clashr",
           Surge2: "surge&ver=2",
         },
-        backendOptions: [{value: "https://convert.hellorain.ga:520/sub?"},{value: "http://127.0.0.1:25500/sub?"}],
+        backendOptions: [{value: "https://convert.demonrain.cn:520/sub?"},{value: "http://127.0.0.1:25500/sub?"}],
         remoteConfig: [
           {
             label: "ACL4SSR",
@@ -423,7 +423,7 @@ export default {
       form: {
         sourceSubUrl: "",
         clientType: "",
-        customBackend: "https://convert.hellorain.ga:520/sub?",
+        customBackend: "https://convert.demonrain.cn:520/sub?",
         remoteConfig: "",
         excludeRemarks: "",
         includeRemarks: "",
@@ -475,7 +475,7 @@ export default {
 
     //后端地址
     // this.form.backendOptions = [{
-    //   value: "https://convert.hellorain.ga:520/"
+    //   value: "https://convert.demonrain.cn:520/"
     // }];
     //前端地址
   },
